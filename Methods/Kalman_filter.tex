@@ -1,0 +1,135 @@
+\subsection{Local Level and Regression Model}
+\label{subsec:state space}
+The state space representation introduced by \cite{Kalman1960AProblems} is a model that can be represented using the two equations \eqref{eq:general_state_space} defining two variables. The observation vector $y_t$ and the state vector $\alpha_t$.  $y_t$ and $\alpha_t$ form the main parts of the state space representation.
+
+\begin{equation}
+\label{eq:general_state_space}
+\begin{aligned}
+\alpha_{t+1} &= T_t\alpha_t + R_t\zeta_t \quad &\zeta_t \sim \mathcal{NID}(0, Q_t)\\
+    y_t &= Z_t\alpha_t + \epsilon_t \quad &\epsilon_t \sim \mathcal{NID}(0, H_t)
+\end{aligned}
+\end{equation}
+
+%\subsubsection{Kalman filter}
+%\label{subsec:Kalman filter}
+with parameters $T_t$, $R_t$, $Q_t$, $Z_t$, $H_t$ and $\alpha_t$ that need to be defined by the model that is represented in State Space. To update the state vector $\alpha_t$ the kalman filter \citep{Kalman1960AProblems} can be used. The kalman filter uses a set of equations \eqref{eq:kalman_equations} to update $\alpha_t$.
+
+\begin{equation}
+\label{eq:kalman_equations}
+\begin{split}
+    v_t &= y_t - Z_t a_t\\
+    f_t &= Z_t P_t Z_t' + H_t\\
+    K_t &= T_t P_t Z_t' F_t^{-1}\\
+    a_{t+1} &= T_t a_t + K_t v_t\\
+    P_{t+1} &= T_t P_t T_t' + R_t Q_t R_t' - K_t F_t K_t'\\
+\end{split}
+\end{equation}
+With variance $P$ and state vector $a$ defined as:
+\begin{equation*}
+\begin{split}    
+    a_{t+1} &= \mathbb{E}(\alpha_{t+1}|Y_t)\\
+    P_{t+1} &= \mathbb{V}\text{ar}(\alpha_{t+1}|Y_t)
+\end{split}
+\end{equation*}
+To make good estimates for our parameters, the loglikelihood is minimized using the L-BFGS-B method. The parameters which can be minimized can differ depending on the model that is represented in State Space. The loglikelihood equation is described in equation \ref{eq:kalman_loglikeli}
+\begin{equation}
+    \log \mathcal{L} = -\frac{n}{2} - \frac{1}{2}\sum\limits_{t=1}^n \log|F_t| - \frac{1}{2}\sum\limits_{t=1}^n v_t' F_t^{-1} v_t
+\label{eq:kalman_loglikeli}
+\end{equation}
+Further descriptions and derivations can be found in \cite{Durbin2012TimeModels}\\
+%\subsubsection{Kalman Smoother}
+%An issue with the Kalman filter is that only the variables until $t$ ($[1:t]$) are taken into account and not the complete state vector $T$. This lead to results with larger differences and forecasts that do not take into account the variables that are being calculated later. The solution to this is the Kalman Smoother which uses a backward recursion on Kalman filter estimates which means that all the values $[1:T]$ are taken into account. The state smoothing algorithm is given by:
+%\begin{equation}
+%\begin{split}
+%    L_t &= T_t - K_tZ_t\\
+%    r_{t-1} &= Z_t'v_t + L_t'r_t\\
+%    N_{t-1} &= Z_t'F^{-1}Z_t + L_t'N_tL_t\\
+%    \alpha_t &= a_t + P_t r_{t-1}\\
+%    V_t &= P_t - P_t N_{t-1} P_t\\
+%\end{split}
+%\end{equation}
+%where we then have
+%\begin{equation*}
+%\begin{split}
+%    \alpha_t &= \mathbb{E}(\alpha_t|Y_n)\\
+%    V_t &= \mathbb{V}ar(\alpha_t|Y_n)
+%\end{split}
+%\end{equation*}
+%Further descriptions and derivations can be found in \cite{Durbin2012TimeModels}
+%}
+
+%\subsection{Local Level Model}
+The first model in state space representation that will be used in this thesis is the local level model. The local level model estimated an estimation of the local level of the state space by estimating the variance parameters of the state space vector and the state variable. The local level model gives us an idea about where the local average is. This model does not take much input parameters and can give us an idea about how a very simple model would perform in this data set as well as giving us a good starting point to start with our analysis with a model that has not many parameters. The local level model estimates the variance of $y$ as $\sigma_{\epsilon}$ and the variance of the state space equation $\sigma_{\eta}$. The local level model is given in state space form as:
+\begin{equation}
+\begin{split}
+    y_t &= \alpha_t + \epsilon_t, \quad \epsilon_t \sim N(0,\sigma_\epsilon^2)\\
+    \alpha_{t+1} &= \alpha_t + \eta, \quad \nu_t \sim N(0, \sigma_\eta^2)\\
+\end{split}
+\end{equation}
+Where $\alpha_t = \mu_t$ and $\eta_t = \gamma_t$. The Local level model is estimated using a Kalman Filter on the state space model with Z = 1, T = 1, R = $\sigma_\eta^2$.\\
+
+%\subsection{Regression model}
+A first expansion of the local level model is to incorporate explanatory data in the model. A good explanatory data set helps the model find patters in the data which can help in making a forecast of the dependent variable. This model with explanatory data is the regression model.  The regression model can also be written in state space form. The regression model finds linear relationships between the explanatory data X and the dependent variable Y. The regression model is defined by:$$y_t = X_t\beta + \epsilon_t$$ and can be represented in state space form and estimated with a Kalman Filter as well. The state space representation of the regression model can be seen in equation \ref{eq:regression_state_space}.\\
+
+\begin{equation}
+    a^*_t = \left(\begin{array}{c} \beta \\ a_t \end{array} \right) \quad
+    T = I_{d+1} \quad
+    R = \left[\begin{array}{c} 0 \\ \sigma_\eta^2\\\end{array}\right] \quad
+    Z = \left[\begin{array}{c c c c}
+        x_{1,1} & \hdots & x_{1,n} &  1 \\
+        \vdots &  \ddots& \vdots & \vdots \\
+        x_{t,1} & \hdots & x_{t,n} & 1 \\
+    \end{array}\right]
+\label{eq:regression_state_space}
+\end{equation}
+
+\subsection{The ARIMA family}
+Autoregressive models are models that do a 'simple' regression on their own lags. The ARIMA family of models are models based on the ARIMA (AutoRegressive Integrated Moving Average) model. Autoregressive means it regresses on the lags of the dependent variable. Integrated means it can handle integrated data and the moving average means it has a moving average component.
+
+\subsubsection{ARIMA}
+\label{subsec:arima}
+The first model we want to consider from the ARIMA family is the ARIMA(p,d,q) model. This model is well studied in literature and one of the reasons we want to include this model in this thesis is that there exist many studies comparing other models we use in this thesis to the ARIMA model. To be able to better place the results of this thesis in literature the ARIMA model is included. The ARIMA model is a linear combination with lags and a moving average component. The ARIMA model assumes linear relationships of the dependent variable with its own lags. The model has p lags, is differentiated d times and has q moving average components. The ARIMA(p,d,q) model is defined in \autoref{eq:arima}
+\begin{equation}
+\begin{split}
+    \tilde{y}_t &= y_t - y_{t-d}\\
+    \tilde{y}_t &= \sum\limits_{i=1}^p \beta_i \tilde{y}_{t-i}  + \sum\limits_{j=1}^q \theta_j \epsilon_{t-1}
+\label{eq:arima}
+\end{split}
+\end{equation}
+The parameters of the ARIMA model will be estimated using the L-BFGS-B method \citep{L-BFGS-B} to minimize the least squares function of $S_{\text{least Squares}} = \sum^n_{i=1} (Y - \hat{Y})^2$.
+
+\subsubsection{ARIMAX}
+\label{subsec:arimax}
+The approaches of the ARIMA model and the regression model can be combined to form the ARIMAX model. The ARIMAX model is an extension of the ARIMA model. The full name of the ARIMAX model is the Autoregressive Integrated Moving Average with Explanatory Data. The ARIMAX model incorporates some lags of the dependent data Y and some moving average components as in the ARIMA model. The ARIMAX model differs from the ARIMA model as it incorporates a set of the explanatory data X in the model as some patterns might be explained by this data and not only from the lags.\\
+
+
+
+\begin{equation}
+\begin{split}
+    \tilde{y}_t &= y_t - y_{t-d}\\
+    \tilde{y}_t &= \sum\limits_{i=1}^p \beta_i \tilde{y}_{t-i}  + \sum\limits_{j=1}^q \theta_j \epsilon_{t-1} + \Gamma X_t\\
+    \Gamma &= \left[\begin{array}{c} \gamma_1 \\ \vdots \\ \gamma_b \end{array}\right] \quad X_t = \left[ \begin{array}{c} x_{1,t}\\ \vdots\\ x_{n,t} \end{array} \right]
+\end{split}
+\end{equation}
+Where $b$ is the dimensionality of the explanatory data X. The ARIMA as well as the ARIMAX models are further described by \cite{Kirchgassner2013IntroductionAnalysis}. The parameters of the ARIMAX model are estimated by the L-BFGS-B method \citep{L-BFGS-B} that minimises the sum of the squared errors of the sample prediction.
+
+\subsubsection{VARIMAX}
+\label{subsec:varimax}
+Because we are dealing with lags and explanatory data in this model, it might be possible to expose and describe more patterns in the data if we split the data by case skill type as a drop in temperature might have a faster or different effect on senior phone cases than on assortment suggestions. To test if this approach yields better results than directly trying to forecast the total number of cases we introduce the VARIMAX (Vector Autoregressive Integrated Moving Average with Explanatory data) model. The VARIMAX model is an extension of the ARIMA and ARIMAX models that predicts multivariate data. For the purpose of this thesis we will take the sum of the outcomes of the VARIMAX model such that we get the Total Number of Cases. The VARIMAX model is given in \autoref{eq:VARIMAX}. Because of the large number of parameters $\theta$, $\beta$ \& $\gamma$, the least squares cannot be optimized using the L-BFGS-B method, but it will be minimized instead using the SLSQP method \citep{SLSQP}.
+\begin{equation}
+\begin{split}
+    \tilde{Y}_t &= Y_t - Y_{t-d}\\
+    \tilde{Y}_t &= \sum\limits_{i=1}^p B_i \tilde{Y}_{t-i}  + \sum\limits_{j=1}^q \theta_j \epsilon_t +  \Gamma X_t\\
+    Y_t &= \left[\begin{array}{c} y_{1,t}\\ \vdots \\ y_{l, t}\end{array}\right] \quad B_i = \left[\begin{array}{c} \beta_{1, i} \\ \vdots \\ \beta_{l,i} \end{array}\right] \quad \Gamma_k = \left[\begin{array}{c c c}
+        \gamma_{1, 1} & \hdots & \gamma_{1, b}\\
+        \vdots & \ddots & \vdots\\
+        \gamma_{l, 1} & \hdots & \gamma_{l, b}\\
+    \end{array}\right]\\
+    X_t &= \left[\begin{array}{c c c}
+        x_{1, 1, t} & \hdots & x_{1, b, t}\\
+        \vdots & \ddots & \vdots\\
+        x_{l, 1, t} & \hdots & x_{l, b, t}\\
+    \end{array}\right]
+\end{split}
+\label{eq:VARIMAX}
+\end{equation}

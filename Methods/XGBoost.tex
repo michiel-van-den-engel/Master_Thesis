@@ -1,0 +1,37 @@
+\subsection{Extreme Gradient Boosting (XGBoost)}
+\label{subseq:xgb}
+The first machine learning model that is included in this thesis is the XGBoost model. XGBoost is a gradient boosted tree method introduced by \cite{Chen2016XGBoost:System}. A tree method is a model that makes use of decision trees to come to a prediction. A graphical representation of a decision tree can be found in figure \ref{fig:decission_graphic}. The XGBoost builds multiple decision trees and takes the average of these trees as the final outcome. The XGBoost has the objective to predict the outcome of
+\begin{equation}
+\label{eq:xgbpredictionfunc}
+    \hat{y}_y = \phi(x_i) = \sum\limits_{k=1}^K f_k(x_i), \quad f_k \in \mathcal{F}
+\end{equation}
+where $\mathcal{F} = \{f(x)=w_{q(x)}(q:\mathbb{R}^m \to T, w \in \mathbb{R}^T)$, q maps the value to the corresponding leaf index, K is the number of additive function in the model, L is the number of leaves in the tree and $f_k$ corresponds to a leaf tree structure with leaf weights $w$. The function has no mathematical solution. Therefore the model is trained using the additive method in \eqref{eq:ministatxgboost} which penalises the outcome depending on the distance between real values and the estimated value and a regularisation term defined in \ref{eq:xgbpenalization}.
+\begin{equation}
+\label{eq:ministatxgboost}
+\begin{gathered}
+    \mathcal{L}^{(t)} = \sum\limits_{i=1}^T l(y_t, \hat{y}_t^{(t-1)} + f_t(x_t)) + \Omega(f_t)
+\end{gathered}
+\end{equation}
+Here $l$ is a differentiable convex loss function which measures the distance between $\hat{y}_i$ and $y_i$. The $\Omega$ function penalises the model complexity and is defined in \eqref{eq:xgbpenalization}. This regularization term helps preventing overfitting and makes gives larger weights to models with a less deep tree.
+\begin{equation}
+\label{eq:xgbpenalization}
+    \Omega(f) = \gamma L + \frac{1}{2} \lambda ||w||^2
+\end{equation}
+where $\lambda$ is a regularization term to avoid overfitting and $\gamma$ is the threshold parameter for adding notes such that nodes are only added to the tree if the gain is larger than $\gamma$. To be able to quickly optimize this function, the second order tailor approximation is used. The constant is removed such that the objective is simplified.
+\begin{equation}
+\label{eq:xgbminitailor}
+    \mathcal{L}^{(t)} \approx \sum\limits_{i=1}^n[g_if_t(x_i) + \frac{1}{2}h_if_i^2(x_i)] + \Omega(f_t)
+\end{equation}
+with $g_i = \partial_{\hat{y}(t-1)}l(y_i,\hat{y}^{(t-1)})$ and $h_i = \partial^2_{\hat{y}(t-1)}l(y_i, \hat{y}^{(t-1)})$. Then if the structure of the tree is fixed, an optimal weight $w_j^*$ can be calculated for the leaf $j$ with
+$$w_j^* = - \frac{\sum_{i\in I_j}g_i}{\sum_{i \in I_j} h_i + \lambda}$$
+which has the corresponding value of 
+\begin{equation}
+\label{eq:xgbscorefunc}
+    \tilde{\mathcal{L}}^{(t)}(q) = - \frac{1}{2} \frac{\left(\sum_{i \in I_j} g_i \right)^2}{\sum_{i \in I_j} h_i + \lambda}
+\end{equation}
+the value of the optimum weights for a tree in \eqref{eq:xgbscorefunc} can be used as a score function for tree $q$. However, because of computational constraints it is usually infeasible to evaluate \eqref{eq:xgbscorefunc} for all possible trees $q$. To avoid this problem, an algorithm that starts from a leaf and then adds branches is used. This algorithm then needs a split function that evaluates the split such that the algorithm can compare the splits and choose the best split. The split function used with $I = I_L \cup I_R$ is defined in \ref{eq:xgbsplitfunc}. 
+\begin{equation}
+\label{eq:xgbsplitfunc}
+    \mathcal{L}_{split} = \frac{1}{2}\left[ \frac{\left(\sum_{i\in I_L} g_i\right)^2}{\sum_{i\in I_L}h_i + \lambda} + \frac{\left(\sum_{i\in I_R} g_i \right)^2}{\sum_{i\in I_R}h_i + \lambda} - \frac{\left(\sum_{i\in I}g_i\right)^2}{\sum_{i\in I}h_i + \lambda}\right] - \gamma
+\end{equation}
+The equation \eqref{eq:xgbsplitfunc} is also known as the gain function. To find the split it is not computationally feasible to use a greedy algorithm that tries every different solution. Therefore this algorithm will use the Sparsity-aware Split Finding algorithm \citep{Chen2016XGBoost:System} to build the tree.

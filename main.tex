@@ -1,0 +1,91 @@
+\documentclass[hidelinks, a4paper,12pt]{article}
+
+\usepackage{graphicx}
+\usepackage{amsmath,amssymb,amsthm} 
+\usepackage[toc,page]{appendix}
+\usepackage{longtable,rotating,subcaption}
+\usepackage[margin=3cm]{geometry}
+\usepackage{natbib}
+\usepackage{multicol}
+\usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{chngcntr}
+\usepackage{cleveref}
+\usepackage{lscape}
+\usepackage{subcaption}
+\usepackage{tikz}
+\usepackage{everypage}
+%\usepackage[nottoc,numbib]{tocbibind}
+
+\counterwithin{figure}{section}
+\counterwithin{equation}{section}
+\counterwithin{table}{section}
+
+\usepackage{natbib}
+\usepackage[section]{placeins}
+\usepackage{filecontents}
+\urlstyle{same}
+
+\renewcommand{\baselinestretch}{1.1}
+\newcommand{\multlinecomment}[1]{\directlua{-- #1}}
+
+\title{Multi step forecasting with machine learning and statistical models}
+\author{
+    Michiel B.\ van den Engel
+    (VU Student Number: 2612085)
+    \\[2ex]
+    Supervisor: Ilka\ van de Werve\\
+    }
+\date{Autumn 2022}
+
+\newlength{\hfoot}
+\newlength{\vfoot}
+\AddEverypageHook{\ifdim\textwidth=\linewidth\relax
+\else\setlength{\hfoot}{-\topmargin}%
+\addtolength{\hfoot}{-\headheight}%
+\addtolength{\hfoot}{-\headsep}%
+\addtolength{\hfoot}{-.5\linewidth}%
+\ifodd\value{page}\setlength{\vfoot}{\oddsidemargin}%
+\else\setlength{\vfoot}{\evensidemargin}\fi%
+\addtolength{\vfoot}{\textheight}%
+\addtolength{\vfoot}{\footskip}%
+\raisebox{\hfoot}[0pt][0pt]{\rlap{\hspace{\vfoot}\rotatebox[origin=cB]{90}{\thepage}}}\fi}
+
+
+\graphicspath{ {./pics/} }
+
+\begin{document}
+\maketitle
+
+\begin{abstract}
+\noindent In this thesis, we implemented multiple machine learning and statistical methods on German and Dutch customer service data and tested these models on multiple time horizons, tested the significant differences and concluded that the ARIMAX and regression model for Dutch and German Data had the best performance.\\[1ex]
+\noindent\textbf{Key words: } XGBoost, VARIMAX, Fused Lasso, Machine Learning, Statistical Models, Neural Network, Diebold Mariano. 
+\end{abstract}
+
+\vfill
+\centerline{\includegraphics[width=0.5\textwidth]{picnic_auto.png}}
+\vfill
+\centerline{\includegraphics[width=0.5\textwidth]{VU_logo.jpg}}
+\clearpage
+\tableofcontents
+\newpage
+\input{Introduction.tex}
+\input{Literature Review.tex}
+\input{Methods/methods_main.tex}
+\input{Data.tex}
+\input{Results.tex}
+\input{Conclusion}
+\input{Discussion}
+
+%Appendixes here
+\newpage
+\appendix
+\input{Appendix/App_data_graphs.tex}
+\input{Appendix/results_by_type_tables.tex}
+
+%bibliography here
+\newpage
+\bibliographystyle{chicago}
+\bibliography{references.bib}
+\end{document}
+

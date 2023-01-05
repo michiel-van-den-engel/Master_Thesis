@@ -1,0 +1,50 @@
+\section{Methodology}
+\label{seq:methodology}
+In this thesis we will compare 10 models to each other for 3 different time intervals. The models we choose are diverse in the way they work to make better comparisons.\\
+
+We start with one of the most basic statistical methods there is, the Local Level model described in \ref{subsec:state space}. This model tries to explain the data with a local average. Then we add regressor data to the local level model resulting in the regression model described in \autoref{subsec:state space}. To place this thesis better in the literature we will also make an ARIMA model described in \autoref{subsec:arima} as many research exists comparing models to the ARIMA model. As with the Local Level model, we can expand the ARIMA model with regressor data resulting in the ARIMAX model described in \autoref{subsec:arimax}. The Fused Lasso model introduces some temporal awareness and shrinks regressors that are far away from each other in time which we think would be a valuable addition to the already listed models. The fused lasso is further described in \autoref{subsec:flasso}. The two univariate machine learning models we will use are the Artificial Neural Network and extreme gradient boosting models. The Artificial Neural Network uses a Neural Network to model non-linear relationships described in \autoref{subsec:ann} and the XGBoost model constructs a decision tree to make predictions described in \autoref{subseq:xgb}.\\
+
+There are also two multivariate models that use data which is split by skill which is needed to solve the case. To compare the multivariate models with the univariate models, the predictions for the different case types are added together such that we again get the total number of cases from the multivariate models. The underlying assumption is that the multivariate models can discover more patterns in the data and can possibly perform better than their univariate counterparts. To model this we introduce two more models, the statistical VARIMAX model (further described in \autoref{subsec:varimax}) that is a multivariate version of the ARIMAX model, and a multivariate version of the artificial Neural Network.\\
+
+In the following part of the thesis there are a lot of notations so first here is a list of the notation that is used throughout this section: $T =$ The set of all the time points, $t =$ A Single time point, $n =$ The number of dimensions for regressor data $x_{t, i} =$, A regressor value at time $T$ and value $i$, $y_t =$ The dependent data at point t in time, $Y =$ All the dependent Data, $\beta =$ The real coefficient, $\hat{\beta} =$ An estimated coefficient and $|Z||^2_2 = \sum_{t=1}^Tz_t$ 
+
+\input{Methods/Kalman_filter.tex}
+\input{Methods/fused_lasso.tex}
+\input{Methods/XGBoost.tex}
+\input{Methods/Neural_network.tex}
+
+\subsection{Mixed modeled Forecast}
+\label{subseq:mixed model}
+If we have a model $S$ which produces an output $X_s$, the output of different models $\{S_1, ..., S_n\}$ might be combined into a mixed model that outperforms all the individual models in S. In this case the mixed model $S_{\text{Mixed}}$ would look like:
+\begin{equation}
+    S_{\text{Mixed}}: Y_{\text{Mixed}} | X = \sum\limits_{i=1}^n \beta S_i(X)
+\end{equation}
+Where S is a model that produces a output Y for given data X. $\beta$ is estimated via the least squares method with X as the h ahead forecast from the selected models and Y as the true dependent. This method is shown to improve the individual forecasts that are taken into account and works better when the forecasts in $S_n$ are diverse \citep{Yang2004CombiningResults}. Because we have a lot of forecasts that are generalisations of other models, the models that will be used for this ensemble model are the Fused Lasso model, the XGBoost model, the Artificial Neural Network and the ARIMAX Model.
+ 
+\subsection{Comparing Forecasts}
+To know what forecast is the best one, we need to be able to compare them to each other. There are of course the normal measures of quality like MAE (Mean Absolute Error), MSE (Mean Squared Error), MAPE (Mean Absolute Percentage Error) and RMSE (Rooted Mean Squared Error) which will be computed for all the methods that are tested. The mathematical definitions of these measures of quality are described in \autoref{app:measures_of_quality}. To draw statistical significant conclusions we use the Diebold-Mariano test \citep{Diebold1995ComparingAccuracy} in combination with these benchmarks. The Diebold-Mariano test looks to evaluate the accuracy of two forecasts. Define the loss differential as: 
+\begin{equation}
+    d_t = g(e_{1t}) - g(e_{2_t})
+    \label{eq:defferenctial_loss}
+\end{equation}
+Where $g(\cdot)$ is a loss function for these forecast errors which can be the MSE, MAE, MAPE, RMSE or any other information criterion. The test then seeks to verify the hypothesis defined by:
+\begin{equation*}
+\begin{split}
+    \text{H}_0 : \mathbb{E}(d_t) &= 0 \quad \forall t\\
+    \text{H}_1 : \mathbb{E}(d_t) &\neq 0 \quad \forall t\\
+\end{split}
+\end{equation*}
+Where the null hypothesis means that the forecasts have the same accuracy while the alternative hypothesis states that the forecasts have different levels of accuracy. To construct the test statistic we need the population mean of the loss differential or:
+\begin{equation*}
+    f_d(0) = \frac{1}{2\pi} \left(\sum\limits_{k=-\infty}^\infty \gamma_d(k)\right)
+\end{equation*}
+Where $\gamma(k)$ is the autocovariance of the loss differential at lag $k$. This can be estimated with:
+\begin{equation}
+    \hat{f}_d(d) = \frac{1}{2\pi} \left(\hat{\gamma}_d(0) + 2 \sum\limits_{k=1}^{h-1} \hat{\gamma}_d(k)\right), \quad h > 1
+\label{eq:loss_diff_hat}
+\end{equation}
+Where $h$ is the number of steps forecasts. By combining equations \ref{eq:defferenctial_loss} and \ref{eq:loss_diff_hat} we get the test statistic in equation \ref{eq:driebold_mariano_test_statistic} which is asymptotically N(0,1) distributed.
+\begin{equation}
+    DM = \frac{\bar{d}}{\sqrt{\frac{2\pi\hat{f}_d(0)}{T}}}
+    \label{eq:driebold_mariano_test_statistic}
+\end{equation}

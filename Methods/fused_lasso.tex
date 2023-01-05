@@ -1,0 +1,18 @@
+\subsection{Fused Lasso}
+\label{subsec:flasso}
+The fused LASSO \citep{Tibshirani2005SparsityLasso} is based on the lasso \citep{Tibshirani1996RegressionLasso}. The Fused LASSO penalises coefficients that have a large euclidean distance between each other. This might be beneficiary for a forecast as it prevents outliers and penalises large differences in the coefficients. Both the fused lasso and the lasso try to predict a linear model. The LASSO finds the coefficients with the least squared estimation: $$\hat{\beta}_{LASSO} = \min \left\{\frac{1}{T}||Y - X\beta||_2^2\right\}\quad \text{subject to} \quad \sum_j|\beta_j| \leq s_1$$
+A problem with this approach is that it does not take into account temporal data. This is important as the data points close to the variables we want to predict might hold much more value than other data points. The fused lasso aims to fix this problem by introducing a new constraint to the minimisation problem which transforms the estimation to: 
+\begin{equation}
+\label{eq:fusedlasso}
+  \begin{gathered}
+    \hat{\beta}_{LASSO} = \min\limits_{\beta} \left\{\frac{1}{T}||Y - X\beta||_2^2\right\}\\
+    \text{subject to} \\
+    \sum_j|\beta_j| \leq s_1 \text{and} \sum^n_{j=2}|\beta_j-\beta_{j-1}|\leq s_2
+\end{gathered}
+\end{equation}
+where $s$ is the sparsity parameter. $s_1$ penalises the regressors if they have a large value of $\beta$ which makes sure variables which contribute little to the models will receive a small value of $\beta$. $s_2$ encourages values of $\beta$ to be close to each other and penalise $\beta$'s that are far apart. The minimization problem that comes from \eqref{eq:fusedlasso} can be solved by the penalised least squared criterion. \cite{Knight2000AsymptoticsEstimators} describe the asymptotic properties for the lasso which are similar for the fused lasso. The penalised least squared criterion for the fused lasso is given in equation \eqref{eq:lassominimised} which can be minimized.
+\begin{equation}
+    \label{eq:lassominimised}
+    \sum\limits_{i=1}^T (y_t - x_t^T\beta)^2 + \lambda^{(1)} \sum\limits^n_{j=1} |\beta_j| + \lambda^{(2)}\sum\limits^n_{j=2} |\beta_j - \beta_{j-1}|
+\end{equation}
+The selection of $\lambda^{(1)}$ and $\lambda^{(2)}$ is done using the leave-one-out cross-validation described in \cite{Hwang2016CrossAcceleration, Cawley2003EEcientClassifiers}

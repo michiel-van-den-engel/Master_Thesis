@@ -1,0 +1,34 @@
+\section{Literature Review}
+The aim of this thesis is to compare forecasts over different time horizons, to look if some methods might have a better performance on different horizons and compare different forecasting methods to each other. Overall, the focus will be on a multi step forecast as this is in practice the most used application of forecasting models.
+
+\subsection{Multi-step Forecasting}
+%Different forecasts and multiple horizons
+A problem that often arises when making multi-step forecasts is that of accumulation errors. A typical forecast uses the predictions made of previous data points in the forecast for the next data points \citep{Chevillon2007DirectForecasting}.\\
+
+The importance of the multi-step ahead forecast is hard to overstate, as it is vital for many businesses, as businesses become more data driven. However, most research in forecasting is done on the one-step ahead forecasting \citep{Duan2021LearningForecasting}. In this thesis we want to compare a number of different forecasting methods for our data sets on different time horizons.\\
+
+% Add something about why and that combining may make this better
+
+Among with trying different forecasting methods, we will also try to improve these forecasting methods by combining a diverse range of forecasting methods to a mixed model. This concept is well studied \citep{Amstrong2001CombiningForecasts, Stock2004CombinationSet} since \cite{Bates1969TheForecasts} showed that combining the data points of two forecasts to one forecast results in a lower mean squared error. In the more recent past, \cite{Yang2004CombiningResults} builds on the result by \cite{Bates1969TheForecasts} and creates a more general theoretical framework for combining forecasts. These combined models can work as a safeguard for a too narrow specified model if the framework is diverse enough \citep{Amstrong2001CombiningForecasts}.\\
+
+%Using the combination of forecasts in a different way, \cite{Engle1989MergingForecasting} describes a combination of models where a model is made over a short and long term horizon and then combined. This concept is then expanded by \cite{Andrawis2011CombinationForecasting} who combines two forecasting models into a short-long term model and concludes that the different time scales taken into account makes sure that the different dynamics of the time scales are better reflected into the final model which in turn will result in a better forecast.\\
+
+% Add something about the benefits of sort-long term modeling circling back to the first part
+
+% Interval difference
+An example of this is the research that has been done by \cite{Ringwood2001ForecastingNetworks}  who compare a linear model and a neural network to model three different time scales on hourly, weekly and yearly intervals. They find that the neural network in general outperforms the linear model over all the time intervals.\\
+
+\subsection{Machine Learning and statistical methods comparison}
+% The beef
+There have been some studies at comparing machine learning models to traditional statistical models in general. \cite{Makridakis2018StatisticalForward} write about the best practices and errors that were made in the past as well as doing a wide comparison themselves. The result from their own research is that the traditional statistical models outperform the machine learning models in general, although they note that this might be because of their specific data set and because of that more research is needed. \cite{Makridakis2018StatisticalForward} also note that there needs to be more research comparing machine learning models with traditional statistical models \citep{Chatfield1993NeuralFad}.\\
+
+Another improvement to the current literature could be made by applying statistical tests when comparing forecasts of machine learning methods comparisons with the forecasts of traditional statistical methods \citep{Masini2021MachineForecasting, Makridakis2018StatisticalForward}. This is not always done correctly as \cite{Adya1998HowEvaluation} showed when they did a meta study of 48 studies and found that only eleven of these studies did correct validations. For this thesis the importance of a good comparison metric cannot easily be understated. A meta analysis done by \cite{Peng2014APractice} suggests that studies comparing forecast models should at least report some error measures MAPE and RMSPE. It is also suggested to add even more error measures for even more complete results.\\
+
+% our models compare between machine learning and regression
+Since the time of \cite{Adya1998HowEvaluation}, a number of other studies have been undertaken to fill the hole in the literature on comparing machine learning models with traditional statistical methods. The literature has many studies comparing models to ARIMA, but there are fewer studies comparing other models with non-ARIMA models. \cite{Siddikur2022AccuracyBangladesh} compared the ARIMA model to the XGBoost model with respect to short-term Covid-19 data and found that the ARIMA model slightly outperforms the XGBoost model while \cite{Alim2020ComparisonStudy} found that XGBoost outperforms ARIMA for predicting the seasonality of brucellosis in mainland China.\\
+
+\cite{Comrie2012ComparingForecasting} compared a neural network against a typical multivariate linear regression and concluded that the neural network performs slightly better. \cite{Mitrea2009AStudy} came to the same conclusion but also noted that a traditional forecasting method might perform better if the training data is limited in number.\\
+
+%The state space models are compared to the ARIMA model by \cite{Ramos2015PerformanceForecasting} who concludes that state space models have a higher forecasting accuracy than the ARIMA model.\\
+
+As seen above, many of the papers comparing the machine learning models and traditional statistical models do not focus on the difference in performance over different horizons but only compare forecasts produced by the methods on a one-step-ahead prediction error \citep{Rafael2019EvaluationModel}. It can further be seen that the current literature has no coherent conclusions for the best model in a given situation. This is very specific to the situation and the goal of this thesis is to research how these models behave in a customer success environment where everything in the organisation can have a predicting effect on cases. 
