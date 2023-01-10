@@ -1,11 +1,11 @@
 \subsection{Fused Lasso}
 \label{subsec:flasso}
-The fused LASSO \citep{Tibshirani2005SparsityLasso} is based on the lasso \citep{Tibshirani1996RegressionLasso}. The Fused LASSO penalises coefficients that have a large euclidean distance between each other. This might be beneficiary for a forecast as it prevents outliers and penalises large differences in the coefficients. Both the fused lasso and the lasso try to predict a linear model. The LASSO finds the coefficients with the least squared estimation: $$\hat{\beta}_{LASSO} = \min \left\{\frac{1}{T}||Y - X\beta||_2^2\right\}\quad \text{subject to} \quad \sum_j|\beta_j| \leq s_1$$
+The fused lasso \citep{Tibshirani2005SparsityLasso} is based on the fasso \citep{Tibshirani1996RegressionLasso}. The fused lasso penalises coefficients that have a large euclidean distance between each other. This might be beneficiary for a forecast as it prevents outliers and penalises large differences in the coefficients. Both the fused lasso and the lasso try to predict a linear model. The lasso finds the coefficients with the least squared estimation: $$\hat{\beta}_{lasso} = \min \left\{\frac{1}{T}||Y - X\beta||_2^2\right\}\quad \text{subject to} \quad \sum_j|\beta_j| \leq s_1$$
 A problem with this approach is that it does not take into account temporal data. This is important as the data points close to the variables we want to predict might hold much more value than other data points. The fused lasso aims to fix this problem by introducing a new constraint to the minimisation problem which transforms the estimation to: 
 \begin{equation}
 \label{eq:fusedlasso}
   \begin{gathered}
-    \hat{\beta}_{LASSO} = \min\limits_{\beta} \left\{\frac{1}{T}||Y - X\beta||_2^2\right\}\\
+    \hat{\beta}_{lasso} = \min\limits_{\beta} \left\{\frac{1}{T}||Y - X\beta||_2^2\right\}\\
     \text{subject to} \\
     \sum_j|\beta_j| \leq s_1 \text{and} \sum^n_{j=2}|\beta_j-\beta_{j-1}|\leq s_2
 \end{gathered}

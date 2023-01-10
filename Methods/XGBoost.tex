@@ -1,6 +1,6 @@
 \subsection{Extreme Gradient Boosting (XGBoost)}
 \label{subseq:xgb}
-The first machine learning model that is included in this thesis is the XGBoost model. XGBoost is a gradient boosted tree method introduced by \cite{Chen2016XGBoost:System}. A tree method is a model that makes use of decision trees to come to a prediction. A graphical representation of a decision tree can be found in figure \ref{fig:decission_graphic}. The XGBoost builds multiple decision trees and takes the average of these trees as the final outcome. The XGBoost has the objective to predict the outcome of
+The first machine learning model that is included in this thesis is the XGBoost model. XGBoost is a gradient boosted tree method introduced by \cite{Chen2016XGBoost:System}. A tree method is a model that makes use of decision trees to come to a prediction. A graphical representation of a decision tree can be found in figure \ref{fig:decission_graphic} where the simple idea for a regression tree is represented with leaves and decision nodes. The XGBoost builds multiple decision trees and takes the average of these trees as the final outcome. The XGBoost has the objective to predict the outcome of
 \begin{equation}
 \label{eq:xgbpredictionfunc}
     \hat{y}_y = \phi(x_i) = \sum\limits_{k=1}^K f_k(x_i), \quad f_k \in \mathcal{F}

@@ -3,7 +3,7 @@
 In this section, the fitted parameters of the parametric models will be reported, as well as the performance of each model.
 \subsection{Model Estimation}
 \label{subseq:model estimation}
-All the models are estimated to fit the data. In this section there are many parameters which need to be described. The parameters all have their own notation. This means that in the following graphs the following means: $\sigma_{\eta}$ is the variance of the state vector, $\sigma_{\epsilon}$] is the estimated variance of the true y, $\beta_1$ is the first lag of the data, $\beta_7$ is the seventh lag of the data, $\gamma_1$ is the weather temperature data, $\gamma_2$ is the UV index data, $\gamma_3$ is the number of deliveries, $\gamma_4$ is the number of regions with vacation, $\gamma_5$ is 1 if there is a national holiday, 0 otherwise, $\gamma_{6-12}$  are constants for the day of the week and $\theta_0$ is the moving average component.\\
+All the models are estimated to fit the data. In this section there are many parameters which need to be described. The parameters all have their own notation. This means that in the following graphs the following means: $\sigma_{\eta}^2$ is the parameter corresponding to the variance of the state vector, $\sigma_{\epsilon}^2$ is the parameter corresponding to the estimated variance of the error terms, $\beta_1$ corresponds to the first lag of the data, $\beta_7$ corresponds to the seventh lag of the data, $\gamma_1$ corresponds to the weather temperature data, $\gamma_2$ corresponds is the UV index data, $\gamma_3$ corresponds to the number of deliveries, $\gamma_4$ corresponds to the number of regions with vacation, $\gamma_5$ corresponds to 1 if there is a national holiday, 0 otherwise, $\gamma_{6-12}$  are constants for the day of the week and $\theta_0$ is the moving average component.\\
 
 \begin{table}[]
     \centering
@@ -15,13 +15,13 @@ All the models are estimated to fit the data. In this section there are many par
     \caption{Local Level Model regression results with the coefficient, t-statistic and p-values for the Dutch and German estimation}
     \label{tab:local_level_regression_Results}
 \end{table}
-The most basic model is the local level model with two estimated values of $\sigma$. The estimated parameters of this model can be found in \autoref{tab:local_level_regression_Results}. The value of $\sigma_{\epsilon}$ is quite large and therefore also significant for both the Dutch and the German data with a p-value smaller than 0.0005. The estimated values of $\sigma_{\eta}$  is in both cases much smaller and definitely not significant.\\
+The most basic model is the local level model with two estimated values of $\sigma$. The estimated parameters of this model can be found in \autoref{tab:local_level_regression_Results}. The value of $\sigma_{\epsilon}$ is quite large and therefore also significant for both the Dutch and the German data with a p-value smaller than 0.0005. This makes a very low signal to noise ratio of 0.0047 for the Netherlands and 0.0029 for Germany. That means there is there is a lot of noise in the data which is expected as cases at customer service can come with a very high variance. The estimated values of $\sigma_{\eta}$  is in both cases much smaller and definitely not significant.\\
 
 \begin{table}[]
     \centering
     \begin{tabular}{|c|c c c||c|c c c|}\hline
         NL & coefficient & t-statistic & p-value & DE & coefficient & t-statistic & p-value\\\hline     
-        $\sigma_{\epsilon}$ & 0.236 & 6.046 & 0.0 &  $\sigma_{\epsilon}$ & 0.031 & 0.791 & 0.429\\
+        $\sigma_{\epsilon}$ & 0.236 & 6.046 & 0.0 & $\sigma_{\epsilon}$ & 0.031 & 0.791 & 0.429\\
         $\sigma_{\eta}$ & 0.001 & 0.013 & 0.99 & $\sigma_{\eta}$ & 0.002 & 0.05 & 0.96\\
         $\gamma_{1}$ & 0.033 & 0.828 & 0.408 & $\gamma_{1}$ & 0.068 & 1.686 & 0.092\\
         $\gamma_{2}$ & 0.048 & 1.231 & 0.219 & $\gamma_{2}$ & 0.035 & 0.887 & 0.375\\
@@ -39,14 +39,14 @@ The most basic model is the local level model with two estimated values of $\sig
     \caption{Regression model results with the coefficient, t-statistic and p-values for the Dutch and German estimation}
     \label{tab:regression_model_results}
 \end{table}
-The expansion of the local level model to the regression model with parameters to the regression model described in \autoref{tab:regression_model_results}. The regression model only has a significant $\sigma_{\epsilon}$ in the Dutch data. The German data has no significant $\sigma_\epsilon$. This is probably because the German data has more steep differences in the data which can be explained better by other factors like the day of the week. Just as with the local level model, the $\sigma_\eta$ is in both countries not significant. Something to note is that the weather data ($\gamma_1$ and $\gamma_2$) are not significant in the Netherlands, but the temperature ($\gamma_2$) in Germany is significant at the 10\% significance interval. The number of deliveries ($\gamma_3$) is significant in both the Netherlands and Germany and it is worth it to take a look at how large the difference is between the Netherlands (0.268) and Germany (0.856) in Number of deliveries coefficient pointing to a more reliable cases per delivery relationship in Germany. The coefficients corresponding to vacations ($\gamma_4$) and holidays ($\gamma_5$) are significant in the Netherlands and not in Germany. This could be because the German operations have more days where the Customer Service is offline and there are no deliveries. In the Netherlands this only happens at holidays, but in Germany this happens also at Sundays. The last thing to point out is that all the constants for the different days ($\gamma_6$-$\gamma_12$) are significant, pointing to a strong relation between what day it is and how many cases come in.\\
+The expansion of the local level model to the regression model with parameters to the regression model described in \autoref{tab:regression_model_results}. The regression model only has a significant $\sigma_{\epsilon}$ in the Dutch data. The German data has no significant $\sigma_\epsilon$. This is probably because the German data has more steep differences in the data which can be explained better by other factors like the day of the week. Just as with the local level model, the $\sigma_\eta$ is in both countries not significant. Something to note is that the weather data ($\gamma_1$ and $\gamma_2$) are not significant in the Netherlands with parameters of only 0.268 and -0.15, but the temperature ($\gamma_2$) in Germany is significant at the 10\% significance interval with a coefficient of 0.375. The number of deliveries ($\gamma_3$) is significant in both the Netherlands and Germany and it is worth it to take a look at how large the difference is between the Netherlands (0.268) and Germany (0.856) in Number of deliveries coefficient pointing to a more reliable cases per delivery relationship in Germany. The coefficients corresponding to vacations ($\gamma_4$) and holidays ($\gamma_5$) are significant in the Netherlands and not in Germany. This could be because the German operations have more days where the Customer Service is offline and there are no deliveries. In the Netherlands this only happens at holidays, but in Germany this happens also at Sundays. The last thing to point out is that all the constants for the different days ($\gamma_6$-$\gamma_{12}$) are significant, pointing to a strong relation between what day it is and how many cases come in.\\
 
 \begin{table}[]
     \centering
     \begin{tabular}{|c|c c c||c|c c c|}\hline
         NL & Coefficient & t-statistic & p-value & DE & Coefficient & t-statistic & p-value\\\hline
         $\beta_1$ & 0.154 & 3.867 & 0.0 & $\beta_1$ & 0.177 & 4.594 & 0.0\\
-        $\beta_7$ & 0.5 & 12.598 & 0.0 & $\beta_7$ & 0.814 & 21.104 & 0.0\\
+        $\beta_7$ & 0.500 & 12.598 & 0.0 & $\beta_7$ & 0.814 & 21.104 & 0.0\\
         $\theta_0$ & -0.043 & -1.112 & 0.267 & $\theta_0$ & -0.045 & -1.147 & 0.252\\\hline
     \end{tabular}
     \caption{ARIMA regression results with the coefficient, t-statistic and p-values for the Dutch and German estimation}
@@ -60,7 +60,7 @@ In the results of the ARIMA regression are given in in \autoref{tab:ARIMA_estima
         NL & Coefficient & t-statistic & p-value & DE & Coefficient & t-statistic & p-value\\\hline
         $\gamma_{1}$ & 0.04 & 1.011 & 0.312 & $\gamma_{1}$ & 0.086 & 2.17 & 0.03\\
         $\gamma_{2}$ & 0.04 & 0.997 & 0.319 & $\gamma_{2}$ & 0.052 & 1.293 & 0.196\\
-        $\gamma_{3}$ & 0.334 & 8.372 & 0.0 & $\gamma_{3}$ & 0.8 & 22.371 & 0.0\\
+        $\gamma_{3}$ & 0.334 & 8.372 & 0.0 & $\gamma_{3}$ & 0.800 & 22.371 & 0.0\\
         $\gamma_{4}$ & -0.089 & -2.301 & 0.022 & $\gamma_{4}$ & 0.002 & 0.047 & 0.963\\
         $\gamma_{5}$ & -0.128 & -3.006 & 0.003 & $\gamma_{5}$ & -0.041 & -0.977 & 0.329\\
         $\gamma_{6}$ & 0.151 & 3.857 & 0.0 & $\gamma_{6}$ & 0.174 & 4.434 & 0.0\\
@@ -77,7 +77,7 @@ In the results of the ARIMA regression are given in in \autoref{tab:ARIMA_estima
     \caption{ARIMAX regression results with the coefficient, t-statistic and p-values for the Dutch and German estimation}
     \label{tab:arimax_estimation}
 \end{table}
-The estimated parameters of the ARIMAX regression are given in \autoref{tab:arimax_estimation} and tell us more about the interaction between the explanatory variables and the lags. Just as in the regression model, the weather data only has a significant effect on the German cases and from the two weather variables, only the temperature ($\gamma_1$) has a significant effect. Also as in the regression model, the number of deliveries ($\gamma_3$) has a strong effect on both data sets, but it has an even larger effect in the German data. Things start to become different looking at the national holidays ($\gamma_6$) which is significant in the ARIMAX model for Germany, but not in the regression model. Another important difference between the ARIMAX model and the regression model is that the daily constants have a very different level of significance. The regressors are smaller and multiple daily constants have no significance at the 5\% significance level. A remarkable result is the non significance of the Sunday constant $\lambda_{12}$ in Germany. The German Sunday drop in cases is not explained as a drop in cases on Sunday by the ARIMAX model, but with higher constants for the other days in the week. You can also see a difference with the ARIMA as we see the seventh lag drop in importance and in the German data, the seventh lag is not even significant at the 10\% significance level. Another difference with the ARIMA model is that the German data has a significant moving average component.\\
+The estimated parameters of the ARIMAX regression are given in \autoref{tab:arimax_estimation} and tell us more about the interaction between the explanatory variables and the lags. Just as in the regression model, the weather data only has a significant effect on the German cases and from the two weather variables, only the temperature ($\gamma_1$) has a significant effect with a coefficient of 0.086. Also as in the regression model, the number of deliveries ($\gamma_3$) has a strong effect on both data sets, but it has an even larger effect in the German data with coefficients of 0.800 in Germany against only 0.344. Things start to become different looking at the national holidays ($\gamma_6$) which is significant in the ARIMAX model for Germany, but not in the regression model. The coefficient corresponding to the national holidays is 0.151 in the Netherlands and 0.174 in Germany which is a large difference with the regression model. Another important difference between the ARIMAX model and the regression model is that the daily constants have a very different level of significance. The regressors are smaller and multiple daily constants have no significance at the 5\% significance level. A remarkable result is the non significance of the Sunday constant $\lambda_{12}$ in Germany which has has coefficient of only 0.063. The German Sunday drop in cases is not explained as a drop in cases on Sunday by the ARIMAX model, but with the drop in deliveries at Sundays. You can also see a difference with the ARIMA as we see the seventh lag drop in importance and in the German data, the seventh lag is not even significant at the 10\% significance level. Another difference with the ARIMA model is that the German data has a significant moving average component with a coefficient of 0.229 comparing to the Dutch moving average component of 0.049.\\
 
 \begin{table}[]
     \centering
@@ -100,17 +100,17 @@ The estimated parameters of the ARIMAX regression are given in \autoref{tab:arim
         $\lambda^{(1)}$ & -0.846 & -0.0 & 1.0 & $\lambda^{(1)}$ & -0.811 & -0.0 & 1.0\\
         $\lambda^{(2)}$ & -0.104 & -0.0 & 1.0 & $\lambda^{(2)}$ & -0.104 & -0.0 & 1.0\\ \hline
     \end{tabular}
-    \caption{Fused Lasso regression results with the coefficient, t-statistic and p-values for the Dutch and German estimation}
+    \caption{Fused lasso regression results with the coefficient, t-statistic and p-values for the Dutch and German estimation}
     \label{tab:FLASSO_estimation_results}
 \end{table}
-The Fused Lasso seems to behave in a way that is very similar to the ARIMAX. This is not really surprising as the regression results given in \autoref{tab:FLASSO_estimation_results} show two insignificant values of $\lambda$, and the values of $\theta_0$ in the ARIMAX model are also insignificant (\autoref{tab:arimax_estimation}). The expectation would be that the coefficients are very close to the ARIMAX coefficients. The exception to this are the day of the week constants. So in line with this it seems like the regressions of the ARIMA and the LASSO are not very much different for the Dutch data which is supported by the Diebold Mariano tests. The regressions however are different from each other with the German data as it has larger coefficients for the weekday variables which are different with the two models.\\
+The fused lasso seems to behave in a way that is very similar to the ARIMAX. This is not really surprising as the regression results given in \autoref{tab:FLASSO_estimation_results} show two insignificant values of $\lambda$, and the values of $\theta_0$ in the ARIMAX model are also insignificant (\autoref{tab:arimax_estimation}). The expectation would be that the coefficients are very close to the ARIMAX coefficients. The exception to this are the day of the week constants. So in line with this it seems like the regressions of the ARIMA and the LASSO are not very much different for the Dutch data which is supported by the Diebold Mariano tests. The regressions however are different from each other with the German data as it has larger coefficients for the weekday variables which are different with the two models.\\
 
 
 \subsection{Forecast results}
 \label{subsec:forecast_results}
-The performance of the forecasts are measured on the similarity to the test set. There are tests performed on three horizons of forecasts: 7 days (\autoref{tab:1 week ahead}), 28 days (\autoref{tab:4 weeks ahead}) and 49 days (\autoref{tab:7 weeks ahead}). For all the models the MAE (Mean Absolute Error), MSE (Mean Squared Error), RMSE (root Mean Squared Error) and MAPE (Mean Absolute Percentage Error) are calculated. We see that all of the models perform better on the Dutch data. This can be expected because the Dutch operations are going on for a longer and are more mature while the German operations are newer and less mature. The p-values of the Diebold Mariano test can be seen in tables \ref{tab:1 week ahead diebold}, \ref{tab:4 week ahead dm} and \ref{tab:7 weeks ahead dm}.\\
+The performance of the forecasts are measured on the similarity to the test set. There are tests performed on three horizons of forecasts: 7 days (\autoref{tab:1 week ahead}), 28 days (\autoref{tab:4 weeks ahead}) and 49 days (\autoref{tab:7 weeks ahead}). For all the models the MAE (Mean Absolute Error), MSE (Mean Squared Error), RMSE (root Mean Squared Error) and MAPE (Mean Absolute Percentage Error) are calculated. We see that all of the models perform better on the Dutch data. This can be expected because the Dutch operations are going on for a longer and are more mature while the German operations are newer and less mature. The p-values of the Diebold Mariano test can be seen in Tables \ref{tab:1 week ahead diebold}, \ref{tab:4 week ahead dm} and \ref{tab:7 weeks ahead dm} for the 1 week, 4 weeks and 7 weeks horizons.\\
 
-This difference in performance over the different markets can have multiple reasons. The Germans have done good work improving the picking process at the fulfillment centers and streamlining customer communication. This however means that the models cannot yet learn from these improvements as they are continuously implemented. The hope is that as the German market matures the models in the future will improve their performance.\\
+The better performance in the Netherlands can have multiple reasons. The Germans have done good work improving the picking process at the fulfillment centers and streamlining customer communication. This however means that the models cannot yet learn from these improvements as they are continuously implemented. The hope is that as the German market matures the models in the future will improve their performance.\\
 
 \begin{table}[]
     \centering
@@ -125,7 +125,7 @@ This difference in performance over the different markets can have multiple reas
         XGBoost & 308.925 & 418.073 & 0.088\\
         Neural Network & 291.157 & 365.504 & 0.083\\
         Multivariate Neural Network & 311.359 & 390.876 & 0.09\\
-        Mixed Model & 266.868 & 342.778 & 0.076\\\hline
+        Mixed Model & 266.868 & 342.778 & 0.076\\\hline\hline
         Germany & MAE & RMSE & MAPE\\\hline
         Local Level Model & 435.601 & 631.483 & 0.223\\
         Regression Model & 198.15 & 237.948 & 0.238\\
@@ -138,11 +138,11 @@ This difference in performance over the different markets can have multiple reas
         Multivariate Neural Network & 352.059 & 409.035 & 0.199\\
         Mixed Model & 301.783 & 359.547 & 0.175\\\hline  
     \end{tabular}
-    \caption{Quality Measures mean absolute error (MAE), root mean squared error (RMSE) and the mean absolute percentage error (MAPE) for the different models types on the 7 steps ahead forecast (1 week)}
+    \caption{Quality Measures mean absolute error (MAE), root mean squared error (RMSE) and the mean absolute percentage error (MAPE) for the different models types on the 7 steps ahead forecast (1 week) for test data on the total number of cases given in \autoref{fig:total cases NL} \& \ref{fig:total cases DE}}
     \label{tab:1 week ahead}
 \end{table}
 
-The performance of the different models can be very different depending on the models, the horizon and the data the models are trying to predict. For the Dutch data, it is hard to say something very specific as the measures of quality are not always in agreement. In general we can say that the ARIMAX and Fused Lasso are the best models at the 7 steps ahead forecast, but at the 49 steps ahead forecast, the VARIMAX, the Ensemble model and the Neural Network have a better performance than the Fused Lasso and the ARIMAX. We can also see that in the Dutch forecast, the ARIMAX and Fused Lasso models are not significantly different.\\
+The performance of the different models can be very different depending on the models, the horizon and the data the models are trying to predict. For the Dutch data, it is hard to say something very specific as the measures of quality are not always in agreement. In general we can say that the ARIMAX and fused lasso are the best models at the 7 steps ahead forecast, but at the 49 steps ahead forecast, the VARIMAX, the Ensemble model and the Neural Network have a better performance than the Fused Lasso and the ARIMAX. We can also see that in the Dutch forecast, the ARIMAX and fused lasso models are not significantly different.\\
 
 \begin{table}[]
     \centering
@@ -170,7 +170,7 @@ The performance of the different models can be very different depending on the m
         Multivariate Neural Network & 418.576 & 485.37 & 0.223\\
         Mixed Model & 321.108 & 388.812 & 0.177\\\hline
     \end{tabular}
-    \caption{Quality Measures mean absolute error (MAE), root mean squared error (RMSE) and the mean absolute percentage error (MAPE) for the different models types on the 28 steps ahead forecast (4 weeks) in the Netherlands and Germany}
+    \caption{Quality Measures mean absolute error (MAE), root mean squared error (RMSE) and the mean absolute percentage error (MAPE) for the different models types on the 28 steps ahead forecast (4 weeks) in the Netherlands and Germany for test data on the total number of cases given in \autoref{fig:total cases NL} \& \ref{fig:total cases DE}}
     \label{tab:4 weeks ahead}
 \end{table}
 The XGBoost and the Neural Network start out really similar, but diverge as the performance of XGBoost decreases over time while the Neural Network seems to improve a bit over time. The improvement over time of the Neural Network can also be seen at the Mixed Model, VARIMAX, Regression Model and the Mixed Model. This is probably because there is a period at the start of the test data set where no frozen products could be delivered. This means that the data at the start can be partly influenced by a large incident and the data later in the test set has no large incident and follows the patterns described by the models better.\\
@@ -190,7 +190,7 @@ The German data proved tougher to forecast. The data has a higher variance, so t
         XGBoost & 340.695 & 462.433 & 0.088\\
         Neural Network & 329.658 & 398.616 & 0.094\\
         Multivariate Neural Network & 534.477 & 676.846 & 0.11\\
-        Mixed Model & 263.406 & 382.792 & 0.067\\\hline
+        Mixed Model & 263.406 & 382.792 & 0.067\\\hline\
         Germany & MAE & RMSE & MAPE\\\hline
         Local Level Model & 448.577 & 652.507 & 0.221\\
         Regression Model & 172.062 & 213.871 & 0.218\\
@@ -204,13 +204,13 @@ The German data proved tougher to forecast. The data has a higher variance, so t
         Mixed Model & 322.175 & 395.633 & 0.185\\
         \hline
     \end{tabular}
-    \caption{Quality Measures for the different models types on the 49 steps ahead forecast (7 Weeks)}
+    \caption{Quality Measures for the different models types on the 49 steps ahead forecast (7 Weeks) for test data on the total number of cases given in \autoref{fig:total cases NL} \& \ref{fig:total cases DE}}
     \label{tab:7 weeks ahead}
 \end{table}
 
 There seems to be a great difference in the measures of quality for the German data. The MAPE does not seem to be a good Quality Measure. Because as the real data approaches zero, the penalty given to the MAPE criterion becomes very large. This can best be seen in the Regression model which has a large MAPE, but the other criteria seem to be unaffected and even quite lower than the other models. Therefore, regarding the German forecasts, the MAPE is not a reliable criterion and it is better to look at the other criteria.\\
 
-Looking at these other criteria the ARIMA model seems to be underperforming in the German forecast. Again, as with the Dutch forecast, the ARIMAX and the Fused Lasso forecasts seem to be very similar. What is different, is that the Neural Network forecast is in this forecast also very similar to the ARIMAX and the Fused Lasso forecast. This is the case for all the forecast horizons. The XGBoost forecast at first seems to be very similar to the Neural Network, however this one diverges as the horizon becomes larger.\\
+Looking at these other criteria the ARIMA model seems to be underperforming in the German forecast. Again, as with the Dutch forecast, the ARIMAX and the fused Lasso forecasts seem to be very similar. What is different, is that the Neural Network forecast is in this forecast also very similar to the ARIMAX and the fused Lasso forecast. This is the case for all the forecast horizons. The XGBoost forecast at first seems to be very similar to the Neural Network, however this one diverges as the horizon becomes larger.\\
 
 The mixed does not seem to be significantly different than its parent forecasts. This is of course expected to some extent as the forecast depends on the other forecasts.\\
 
@@ -219,15 +219,15 @@ In this thesis, we did not find any evidence to suggest that machine learning mo
 \subsection{Individual Model Performance}
 The local level model did not show the best performance but serves as a good basis level. The model does not find patterns in the data as other methods do, but is more an estimation of the mean of the data. This can be a good estimate but in the case of these two data sets for Customer Service it does not perform very well with an RMSE that is in most cases between 400 and 450.\\
 
-The regression model performed better than what we expected, especially in Germany. In the Netherlands, it was not significantly better than the Fused Lasso and ARIMAX forecasts on the 7 and 28 steps horizons. In Germany the regression model did even better, outperforming all the other models by the RMSE and MAE, but as noted in \autoref{subsec:forecast_results}, the MAPE suffers from some low predicted values, making the denominator very small.\\
+The regression model performed better than what we expected, especially in Germany. In the Netherlands, it was not significantly better than the fused Lasso and ARIMAX forecasts on the 7 and 28 steps horizons. In Germany the regression model did even better, outperforming all the other models by the RMSE and MAE, but as noted in \autoref{subsec:forecast_results}, the MAPE suffers from some low predicted values, making the denominator very small.\\
 
 The ARIMA model had a moderate performance in the Netherlands but performed under our expectations. An explanation for this could be that the data has a larger correlation with the explanatory data than with the lags alone. This is also supported by the good performance of the regression model. The difference in performance is even larger in Germany with an RMSE of 393 (\autoref{tab:1 week ahead}), 557 (\autoref{tab:4 weeks ahead}) and 674 (\autoref{tab:7 weeks ahead}). The worse performance in Germany is to some extent expected as the ARIMA model does not have any parameter that can compensate for the large variance on Sundays in Germany. In the Netherlands, the ARIMA model was not significantly different that the Local Level Model, while in Germany the ARIMA model was even worse than the Local Level Model.\\
 
-The ARIMAX model performed better than the ARIMA and Local Level model, but did not outperform the Regression model on every horizon in the Netherlands. The ARIMAX model has a performance very similar to the performance of the Fused Lasso. The difference between the ARIMAX forecast and the Fused Lasso forecast is not significant for both the Dutch and the German data (Tables \ref{tab:1 week ahead diebold}, \ref{tab:4 week ahead dm} and \ref{tab:7 weeks ahead dm}). Overall, the ARIMAX model had the best performance at some metrics of the univariate models in the Netherlands, but was always tied with the Fused Lasso model. The ARIMAX was able to take advantage in the data patterns of the explanatory data and the lagged dependent data both.\\
+The ARIMAX model performed better than the ARIMA and Local Level model, but did not outperform the Regression model on every horizon in the Netherlands. The ARIMAX model has a performance very similar to the performance of the fused Lasso. The difference between the ARIMAX forecast and the Fused Lasso forecast is not significant for both the Dutch and the German data (Tables \ref{tab:1 week ahead diebold}, \ref{tab:4 week ahead dm} \& \ref{tab:7 weeks ahead dm}). Overall, the ARIMAX model had the best performance at some metrics of the univariate models in the Netherlands, but was always tied with the fused Lasso model. The ARIMAX was able to take advantage in the data patterns of the explanatory data and the lagged dependent data both.\\
 
 The VARIMAX model had a great performance, outperforming all the other models in the longer horizons in the Netherlands and still creating a reasonable performance in Germany. In Germany only the Regression Model managed to get a better performance on the MAE and RMSE. A disadvantage of this model might be that it is computationally heavier to estimate than the other models due to the large number of coefficients that need to be estimated. An advantage is that since this model creates multiple outputs that are then aggregated, the outputs can be used separately as well creating more forecast data which can be used in the applications of this forecast.\\
 
-The Fused lasso has one of the best performances of the univariate models along with the ARIMAX model. This result makes sense as the forecast is never significantly different from the ARIMAX model (Tables \ref{tab:1 week ahead diebold}. \ref{tab:4 week ahead dm}. \ref{tab:7 weeks ahead dm}) because the coefficients that differ the models are close to zero as described in \autoref{subseq:model estimation}. A problem with the estimation via k-fold crossover is that it takes the most computational power to estimate out of all models. Since the Fused lasso did not perform significantly better than the ARIMAX model while the ARIMAX model took a lot less time to estimate, therefore it makes more sense to use the ARIMAX model instead of the Fused Lasso model.\\
+The fused lasso has one of the best performances of the univariate models along with the ARIMAX model. This result makes sense as the forecast is never significantly different from the ARIMAX model (Tables \ref{tab:1 week ahead diebold}, \ref{tab:4 week ahead dm} \& \ref{tab:7 weeks ahead dm}) because the coefficients that differ the models are close to zero as described in \autoref{subseq:model estimation}. A problem with the estimation via k-fold crossover is that it takes the most computational power to estimate out of all models. Since the fused lasso did not perform significantly better than the ARIMAX model while the ARIMAX model took a lot less time to estimate, therefore it makes more sense to use the ARIMAX model instead of the fused lasso model.\\
 
 The performance of the XGBoost model was not as good as expected. The model did not outperform all models at some metric, but it also did not make forecasts that did have a larger RMSE than 434 in the Netherlands and 365 in Germany. The expectation was that the model would produce better results especially in Germany, where this boosted tree could make a special leaf for Sundays, but unfortunately the XGBoosted tree did not have such a leaf but starts out with decision nodes based on the lags and the deliveries. \\
 

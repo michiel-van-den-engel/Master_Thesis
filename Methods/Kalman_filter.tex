@@ -12,7 +12,7 @@ The state space representation introduced by \cite{Kalman1960AProblems} is a mod
 
 %\subsubsection{Kalman filter}
 %\label{subsec:Kalman filter}
-with parameters $T_t$, $R_t$, $Q_t$, $Z_t$, $H_t$ and $\alpha_t$ that need to be defined by the model that is represented in State Space. To update the state vector $\alpha_t$ the kalman filter \citep{Kalman1960AProblems} can be used. The kalman filter uses a set of equations \eqref{eq:kalman_equations} to update $\alpha_t$.
+with parameters $T_t$, $R_t$, $Q_t$, $Z_t$, $H_t$ and $\alpha_t$ that need to be defined by the model that is represented in State Space. To update the state vector $\alpha_t$ the Kalman filter \citep{Kalman1960AProblems} can be used. The Kalman filter uses a set of equations \eqref{eq:kalman_equations} to update $\alpha_t$.
 
 \begin{equation}
 \label{eq:kalman_equations}
@@ -24,7 +24,7 @@ with parameters $T_t$, $R_t$, $Q_t$, $Z_t$, $H_t$ and $\alpha_t$ that need to be
     P_{t+1} &= T_t P_t T_t' + R_t Q_t R_t' - K_t F_t K_t'\\
 \end{split}
 \end{equation}
-With variance $P$ and state vector $a$ defined as:
+With $v_t$ as the prediction error, $f_t$ as the variance of the prediction error and $K_t$ as the Kalman gain. With variance $P$ and state vector $a$ defined as:
 \begin{equation*}
 \begin{split}    
     a_{t+1} &= \mathbb{E}(\alpha_{t+1}|Y_t)\\
@@ -59,17 +59,17 @@ Further descriptions and derivations can be found in \cite{Durbin2012TimeModels}
 %}
 
 %\subsection{Local Level Model}
-The first model in state space representation that will be used in this thesis is the local level model. The local level model estimated an estimation of the local level of the state space by estimating the variance parameters of the state space vector and the state variable. The local level model gives us an idea about where the local average is. This model does not take much input parameters and can give us an idea about how a very simple model would perform in this data set as well as giving us a good starting point to start with our analysis with a model that has not many parameters. The local level model estimates the variance of $y$ as $\sigma_{\epsilon}$ and the variance of the state space equation $\sigma_{\eta}$. The local level model is given in state space form as:
+The first model in state space representation that will be used in this thesis is the local level model. The local level model estimates the variance parameters of the state space vector and the state variable. The local level model gives us an idea about where the local average is. This model does not take much input parameters and can give us an idea about how a very simple model would perform in this data set as well as giving us a good starting point to start with our analysis with a model that has not many parameters. The local level model estimates the variance of the error terms as $\sigma_{\epsilon}^2$ and the variance of the state space equation $\sigma_{\eta}$. The local level model is given in state space form as:
 \begin{equation}
 \begin{split}
     y_t &= \alpha_t + \epsilon_t, \quad \epsilon_t \sim N(0,\sigma_\epsilon^2)\\
     \alpha_{t+1} &= \alpha_t + \eta, \quad \nu_t \sim N(0, \sigma_\eta^2)\\
 \end{split}
 \end{equation}
-Where $\alpha_t = \mu_t$ and $\eta_t = \gamma_t$. The Local level model is estimated using a Kalman Filter on the state space model with Z = 1, T = 1, R = $\sigma_\eta^2$.\\
+The Local level model is estimated using a Kalman Filter on the state space model with Z = 1, T = 1, R = $\sigma_\eta^2_t$, H = $\sigma_\epsilon^2$ \\
 
 %\subsection{Regression model}
-A first expansion of the local level model is to incorporate explanatory data in the model. A good explanatory data set helps the model find patters in the data which can help in making a forecast of the dependent variable. This model with explanatory data is the regression model.  The regression model can also be written in state space form. The regression model finds linear relationships between the explanatory data X and the dependent variable Y. The regression model is defined by:$$y_t = X_t\beta + \epsilon_t$$ and can be represented in state space form and estimated with a Kalman Filter as well. The state space representation of the regression model can be seen in equation \ref{eq:regression_state_space}.\\
+A first expansion of the local level model is to incorporate explanatory data in the model. A good explanatory data set helps the model find patters in the data which can help in making a forecast of the dependent variable. This model with explanatory data is the regression model.  The regression model can also be written in state space form. The regression model finds linear relationships between the explanatory data X and the dependent variable Y. The regression model is defined by:$$y_t = X_t\beta + \epsilon_t$$ and can be represented in state space form and estimated with a Kalman Filter as well. The state space representation of the regression model can be seen in equation \ref{eq:regression_state_space}. Where $\alpha^*$ is the new state space vector and $I_d$ is the Identity matrix.\\
 
 \begin{equation}
     a^*_t = \left(\begin{array}{c} \beta \\ a_t \end{array} \right) \quad
@@ -88,7 +88,7 @@ Autoregressive models are models that do a 'simple' regression on their own lags
 
 \subsubsection{ARIMA}
 \label{subsec:arima}
-The first model we want to consider from the ARIMA family is the ARIMA(p,d,q) model. This model is well studied in literature and one of the reasons we want to include this model in this thesis is that there exist many studies comparing other models we use in this thesis to the ARIMA model. To be able to better place the results of this thesis in literature the ARIMA model is included. The ARIMA model is a linear combination with lags and a moving average component. The ARIMA model assumes linear relationships of the dependent variable with its own lags. The model has p lags, is differentiated d times and has q moving average components. The ARIMA(p,d,q) model is defined in \autoref{eq:arima}
+The first model we want to consider from the ARIMA family is the ARIMA(p,d,q) model. This model is well studied in literature and one of the reasons we want to include this model in this thesis is that there exist many studies comparing other models we use in this thesis to the ARIMA model. To be able to better place the results of this thesis in literature the ARIMA model is included. The ARIMA model is a linear combination with lags and a moving average component. The ARIMA model assumes linear relationships of the dependent variable with its own lags. The model has p lags, is differentiated d times and has q moving average components. The ARIMA(p,d,q) model is defined in \autoref{eq:arima} with $p$ as the number of lags, $d$ as the order of differencing in the ARIMA model, q as the number of moving average components, $\bar{y}$ as the differenced value of $y$ and $\theta_j$ as the j'th moving average component with $j \in \{1, ..., q\}$.
 \begin{equation}
 \begin{split}
     \tilde{y}_t &= y_t - y_{t-d}\\
@@ -100,9 +100,7 @@ The parameters of the ARIMA model will be estimated using the L-BFGS-B method \c
 
 \subsubsection{ARIMAX}
 \label{subsec:arimax}
-The approaches of the ARIMA model and the regression model can be combined to form the ARIMAX model. The ARIMAX model is an extension of the ARIMA model. The full name of the ARIMAX model is the Autoregressive Integrated Moving Average with Explanatory Data. The ARIMAX model incorporates some lags of the dependent data Y and some moving average components as in the ARIMA model. The ARIMAX model differs from the ARIMA model as it incorporates a set of the explanatory data X in the model as some patterns might be explained by this data and not only from the lags.\\
-
-
+The approaches of the ARIMA model and the regression model can be combined to form the ARIMAX model. The ARIMAX model is an extension of the ARIMA model. The full name of the ARIMAX model is the Autoregressive Integrated Moving Average with Explanatory Data. The ARIMAX model incorporates some lags of the dependent data Y and some moving average components as in the ARIMA model. The ARIMAX model differs from the ARIMA model as it incorporates a set of the explanatory data X in the model as some patterns might be explained by this data and not only from the lags. $\gamma$ represents the coefficients corresponding to the explanatory data X.\\
 
 \begin{equation}
 \begin{split}
