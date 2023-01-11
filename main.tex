@@ -1,5 +1,4 @@
 \documentclass[hidelinks, a4paper,12pt]{article}
-
 \usepackage{graphicx}
 \usepackage{amsmath,amssymb,amsthm} 
 \usepackage[toc,page]{appendix}
@@ -54,19 +53,10 @@
 
 \graphicspath{ {./pics/} }
 
+
 \begin{document}
-\maketitle
 
-\begin{abstract}
-\noindent In this thesis, we implemented multiple machine learning and statistical methods on German and Dutch customer service data and tested these models on multiple time horizons, tested the significant differences and concluded that the ARIMAX and regression model for Dutch and German Data had the best performance.\\[1ex]
-\noindent\textbf{Key words: } XGBoost, VARIMAX, Fused Lasso, Machine Learning, Statistical Models, Neural Network, Diebold Mariano. 
-\end{abstract}
-
-\vfill
-\centerline{\includegraphics[width=0.5\textwidth]{picnic_auto.png}}
-\vfill
-\centerline{\includegraphics[width=0.5\textwidth]{VU_logo.jpg}}
-\clearpage
+\include{titlepage.tex}
 \tableofcontents
 \newpage
 \input{Introduction.tex}
@@ -86,7 +76,7 @@
 %\input{Appendix/model_performance_graphs.tex}
 \section{Residuals}
 \label{sec:residuals}
-\input{Appendix/residuals.tex}
+%\input{Appendix/residuals.tex}
 
 %bibliography here
 \newpage
