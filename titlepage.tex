@@ -1,0 +1,52 @@
+\vspace*{1mm}
+\begin{center}
+\Large \textsc{VU School of Business and Economics}
+\end{center}
+\noindent
+\rule{\textwidth}{0.8pt}\\
+\begin{center}
+{\huge\bf
+\noindent
+Multi step forecasting with machine learning and statistical models
+}
+\end{center}
+\rule{\textwidth}{0.8pt}
+\begin{center}
+\Large \textsc{Michiel B. van den Engel (2612085)}\\
+\Large \textsc{19 Januari 2023}
+\end{center}
+
+% \vfill
+% \begin{figure}[!h]
+% \begin{minipage}{.5\textwidth}
+%   \centering
+%   \includegraphics[width=\linewidth]{VU_logo.jpg}
+%   \label{fig:UV index NL}
+% \end{minipage}
+% \begin{minipage}{.5\textwidth}
+%   \centering
+%   \includegraphics[width=\linewidth]{pics/picnic_auto.png}
+%   \label{fig:UV index DE}
+% \end{minipage}
+% \end{figure}
+% \vfil
+\vfill
+\centerline{\includegraphics[width=0.5\textwidth]{picnic_auto.png}}
+\vfill
+\centerline{\includegraphics[width=0.5\textwidth]{VU_logo.jpg}}
+\vspace{20mm}
+\begin{minipage}[t]{0.47\textwidth}
+	\textnormal{{\bf Thesis Commission:\\}}
+	{Supervisor: Ilka van der Werve}\\
+	{Co-reader: Mirko Armillotta}
+\end{minipage}\hfill\begin{minipage}[t]{0.47\textwidth}\raggedleft
+	\textnormal{{\bf Picnic Supervisor:\\}}
+	{\ Anne-Jet Ogilvie }
+\end{minipage}
+
+
+\clearpage
+\begin{abstract}
+\noindent In this thesis, we construct ten different models, the local level model in state space representation, the regression model in state space representation, the ARIMA model, the ARIMAX model, the VARIMAX model, the fused lasso model, the XGBoost, the neural network, the multivariate neural network and an ensemble model. These models are then trained on two data sets forecasting the total incoming cases at a customer service department in the Netherlands and in Germany. We then use these models to create three multi step ahead forecasts at 7 steps, 28 steps and 49 steps ahead. We compare these models with measures of quality like MAPE, RMSE, MAE and check if the forecasts by these models are significantly different using the Diebold Mariano test. We conclude that the regression model in state space performs best in Germany and the ARIMAX and fused lasso perform best in the Netherlands, but they the ARIMAX and fused lasso seem to not be significantly different in this regression, the ARIMAX model is preferenced as it uses less computational power.
+\end{abstract}
+\clearpage
