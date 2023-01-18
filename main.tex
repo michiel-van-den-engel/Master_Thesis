@@ -3,7 +3,7 @@
 \usepackage{amsmath,amssymb,amsthm} 
 \usepackage[toc,page]{appendix}
 \usepackage{longtable,rotating,subcaption}
-\usepackage[margin=3cm]{geometry}
+\usepackage[a4paper, total={176mm, 246mm}]{geometry}
 \usepackage{natbib}
 \usepackage{multicol}
 \usepackage[pdftex,hypertexnames=false,linktocpage=true]{hyperref}
@@ -27,15 +27,6 @@
 
 \renewcommand{\baselinestretch}{1.1}
 \newcommand{\multlinecomment}[1]{\directlua{-- #1}}
-
-\title{Multi step forecasting with machine learning and statistical models}
-\author{
-    Michiel B.\ van den Engel
-    (VU Student Number: 2612085)
-    \\[2ex]
-    Supervisor: Ilka\ van de Werve\\
-    }
-\date{Autumn 2022}
 
 \newlength{\hfoot}
 \newlength{\vfoot}
@@ -73,13 +64,15 @@
 \input{Appendix/results_by_type_tables.tex}
 \section{Forecast Result Plots}
 \label{sec:forecast results}
-%\input{Appendix/model_performance_graphs.tex}
+\input{Appendix/model_performance_graphs.tex}
 \section{Residuals}
 \label{sec:residuals}
-%\input{Appendix/residuals.tex}
+\input{Appendix/residuals.tex}
 
 %bibliography here
-\newpage
+\clearpage
+\phantomsection
+\addcontentsline{toc}{section}{References}
 \bibliographystyle{chicago}
 \bibliography{references.bib}
 \end{document}
